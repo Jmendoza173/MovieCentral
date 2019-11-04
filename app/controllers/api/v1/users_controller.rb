@@ -7,20 +7,59 @@ class Api::V1::UsersController < ApplicationController
     end
 
     def show
-        render json: User.create(user_params)
+        user_id = params[:id]
+        if logged_in_user_id == user_id.to_i
+            render json @user, status: 200
+        else
+            render json: { errors: "You have to be logged in to see this page" }, status: :unauthorized
+        end
     end
-
+  
     def create
-        
-        payload = {user_id: user.id}
-        token = JWT.encode(payload, ENV[JWT_SECRET_KEY], true {algorithm: "HS256"})
-        render json: {user: user, token: token}
-
+      user = User.create(user_params)
+      if user.valid?
+        render json: authentication_json(user.id)
+      else
+        render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+      end
     end
-    
+  
+    def update
+      user_id = params[:id]
+      if logged_in_user_id == user_id.to_i
+        @user.update(user_params)
+        render json: @user, status: 200
+      else
+        render json: { errors: "You have to be logged in to see this page" }, status: :unauthorized
+      end
+    end
+  
+    def destroy
+      user_id = params[:id]
+      if logged_in_user_id == user_id.to_i
+        userId = @user.id
+        @user.destroy
+        render json: {errors:"You have deleted your Account", userId:userId}
+      else
+        render json: { errors: "You have to be logged in to see this page"}, status: :unauthorized
+      end
+    end
+  
+    def show
+      user_id = params[:id]
+      if logged_in_user_id == user_id.to_i
+        render json: @user, status: 200
+      else
+        render json: { errors: "You have to be logged in to see this page" }, status: :unauthorized
+      end
+    end
+  
     private
-
     def user_params
-        params.permit(:username, :password)
+      params.permit(:username, :password, :firstName, :lastName, :email)
+    end
+  
+    def set_user
+      @user = User.find(params[:id])
     end
 end

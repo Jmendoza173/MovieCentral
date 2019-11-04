@@ -1,6 +1,15 @@
 Rails.application.routes.draw do
-  resources :movies
-  resources :users
+  namespace :api do
+    namespace :v1 do
+      resources :movies, only: [:index,:show,:create]
+      resources :users
+      resources :list_items
+      resources :lists
+      resources :replies
+      resources :discussions
+      resources :ratings
+    end
+  end
 
   get '/persist', to: 'auth#persist'
   post 'login', to: 'auth#login'

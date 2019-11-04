@@ -2,6 +2,7 @@ class CreateMovies < ActiveRecord::Migration[6.0]
   def change
     create_table :movies do |t|
       t.string :title
+      t.integer :api_id
       t.string :originT
       t.string :imdb_id
       t.string :homepage
