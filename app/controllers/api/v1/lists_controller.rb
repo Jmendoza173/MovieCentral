@@ -3,11 +3,11 @@ class Api::V1::ListsController < ApplicationController
 
     def index
         lists = List.all
-        render json: lists, status: 200
+        render json: lists,include: "**", status: 200
     end
 
     def show
-        render json @list, status: 200
+        render json: @list, include: "**", status: 200
     end
   
     def create

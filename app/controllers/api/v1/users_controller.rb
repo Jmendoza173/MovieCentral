@@ -3,13 +3,13 @@ class Api::V1::UsersController < ApplicationController
 
     def index
         users = User.all
-        render json: users, status: 200
+        render json: users,include: "**", status: 200
     end
 
     def show
         user_id = params[:id]
         if logged_in_user_id == user_id.to_i
-            render json @user, status: 200
+            render json: @user, include: "**", status: 200
         else
             render json: { errors: "You have to be logged in to see this page" }, status: :unauthorized
         end
@@ -18,7 +18,7 @@ class Api::V1::UsersController < ApplicationController
     def create
       user = User.create(user_params)
       if user.valid?
-        render json: authentication_json(user.id)
+        render json: authentication_json(user.id, user.username)
       else
         render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
       end
@@ -45,18 +45,18 @@ class Api::V1::UsersController < ApplicationController
       end
     end
   
-    def show
-      user_id = params[:id]
-      if logged_in_user_id == user_id.to_i
-        render json: @user, status: 200
-      else
-        render json: { errors: "You have to be logged in to see this page" }, status: :unauthorized
-      end
-    end
+    # def show
+    #   user_id = params[:id]
+    #   if logged_in_user_id == user_id.to_i
+    #     render json: @user, status: 200
+    #   else
+    #     render json: { errors: "You have to be logged in to see this page" }, status: :unauthorized
+    #   end
+    # end
   
     private
     def user_params
-      params.permit(:username, :password, :firstName, :lastName, :email)
+      params.permit(:username, :password)
     end
   
     def set_user

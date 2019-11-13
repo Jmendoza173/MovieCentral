@@ -7,7 +7,7 @@ class Api::V1::RatingsController < ApplicationController
     end
 
     def show
-        render json @rating, status: 200
+        render json: @rating, status: 200
     end
   
     def create

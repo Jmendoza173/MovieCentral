@@ -1,9 +1,9 @@
-class ApplicationController < ActionController::Base
+class ApplicationController < ActionController::API
     
     private
 
-    def authentication_json(user_id)
-        { token: make_token(user_id), user_id: user_id }
+    def authentication_json(user_id, name)
+        { token: make_token(user_id), user_id: user_id, username: name }
     end
 
     def make_token(user_id)

@@ -7,7 +7,7 @@ class Api::V1::RepliesController < ApplicationController
     end
 
     def show
-        render json @reply, status: 200
+        render json: @reply, status: 200
     end
   
     def create

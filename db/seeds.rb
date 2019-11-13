@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-require 'rest-client'
+# require 'rest-client'
 
-movies = RestClient.get 'https://api.themoviedb.org/3/discover/movie?api_key=ed7d0309eef7d103fe51cfd7d89e7c77&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1'
+# movies = RestClient.get 'https://api.themoviedb.org/3/discover/movie?api_key=ed7d0309eef7d103fe51cfd7d89e7c77&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1'
 

@@ -1,5 +1,5 @@
 class Api::V1::DiscussionsController < ApplicationController
-    before_action :set_desc, only: [:show,:update,:destroy]
+    before_action :set_disc, only: [:show,:update,:destroy]
 
     def index
         discussions = Discussion.all
@@ -7,12 +7,12 @@ class Api::V1::DiscussionsController < ApplicationController
     end
 
     def show
-        render json @discussion, status: 200
+        render json: @discussion, status: 200
     end
   
     def create
         if logged_in?
-            discussion = Discussion.create(desc_params)
+            discussion = Discussion.create(disc_params)
             if discussion.valid?
                 render json: discussion, status:201
             else
@@ -23,7 +23,7 @@ class Api::V1::DiscussionsController < ApplicationController
   
     def update
       if logged_in_user_id == @discussion.user_id
-        @discussion.update(desc_params)
+        @discussion.update(disc_params)
         render json: @discussion, status: 200
       else
         render json: { errors: "You have to be logged in to see this page" }, status: :unauthorized
@@ -50,7 +50,7 @@ class Api::V1::DiscussionsController < ApplicationController
   
     private
     def disc_params
-      params.permit(:content,:user_id, :movie_id)
+      params.permit(:content,:user_id, :movie_id, :title)
     end
   
     def set_disc

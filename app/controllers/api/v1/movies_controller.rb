@@ -3,16 +3,16 @@ class Api::V1::MoviesController < ApplicationController
 
     def index
         movies = Movie.all
-        render json: movies, status: 200
+        render json: movies,include: "**", status: 200
     end
 
     def show
-        render json: movie
+        render json: movie, include: "**", status: 200
     end
 
     def create
         movie = Movie.create(movie_params)
-        render json: movie
+        render json: movie, status: 201
     end
     
     private
@@ -22,6 +22,6 @@ class Api::V1::MoviesController < ApplicationController
     end
 
     def movie_params
-        params.permit(:title, :api_id)
+        params.permit(:title, :api_id, :poster_path)
     end
 end

@@ -7,7 +7,7 @@ class Api::V1::ListItemsController < ApplicationController
     end
 
     def show
-        render json @list_item, status: 200
+        render json: @list_item, status: 200
     end
   
     def create

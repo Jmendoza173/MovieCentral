@@ -1,5 +1,4 @@
 class ListItemSerializer < ActiveModel::Serializer
-  attributes :id
-  has_one :list
-  has_one :movie
+  attributes :id, :list_id
+  belongs_to :movie
 end
